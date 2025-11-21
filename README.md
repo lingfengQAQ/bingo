@@ -41,6 +41,13 @@ docker compose up --build
 ## 运行日志
 容器使用标准输出记录同步与处理进度，可通过 `docker compose logs -f` 查看。
 
+## 本地快速检查
+若想在宿主机先验证脚本语法（无需配置 API Key 与 rclone），可以运行：
+```bash
+python -m compileall main.py
+```
+该命令仅做语法编译检查，不会实际调用网络或 rclone，同样也不会访问本地文件系统。
+
 ## 推送到 GitHub
 当前仓库仅在本地存在，并未推送到任何远程。若需要推送到 GitHub，可参考以下示例步骤：
 ```bash
