@@ -1,0 +1,13 @@
+services:
+  rag-worker:
+    build: .
+    environment:
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY}
+      GDRIVE_SRC: ${GDRIVE_SRC:-gdrive:ebooks}
+      LOCAL_SRC: ${LOCAL_SRC:-/data/input}
+      LOCAL_DB: ${LOCAL_DB:-/data/lightrag_db}
+      GDRIVE_DST: ${GDRIVE_DST:-gdrive:ebooks-db}
+    volumes:
+      - ~/.config/rclone:/root/.config/rclone:ro
+      - ./data:/data
+    restart: unless-stopped
