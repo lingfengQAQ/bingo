@@ -2,7 +2,7 @@
 
 本项目提供一个基于 Docker 的 Python 任务容器，用于：
 1. 使用 `rclone` 从 Google Drive 同步 PDF/TXT 电子书到本地。
-2. 通过 LightRAG + Gemini（`gemini-1.5-flash` 与 `models/gemini-embedding-001`，embedding 维度 768）构建向量知识库。
+2. 通过 LightRAG + Gemini（`gemini-2.5-flash` 与 `models/gemini-embedding-001`，embedding 维度 768）构建向量知识库。
 3. 将生成的 LightRAG 数据库回传到 Google Drive。
 
 ## 先决条件
@@ -33,8 +33,8 @@ docker compose up --build
 ```
 
 ## 文件说明
-- `main.py`：核心逻辑，包含 rclone 同步、PDF/TXT 解析、LightRAG 构建与上传。
-- `requirements.txt`：Python 依赖列表。
+- `main.py`：核心逻辑，包含 rclone 同步、PDF/TXT 解析、LightRAG 构建与上传；启动时会记录 LightRAG 版本及所用 Gemini 模型；LLM/Embedding 均使用 Gemini 的异步接口，兼容 LightRAG 传入的 `system_prompt` / `history_messages` 参数，并对 embedding 做重试与并发限流。
+- `requirements.txt`：Python 依赖列表（包含 `numpy` 以返回向量数组）。
 - `Dockerfile`：构建镜像，包含 rclone 安装步骤。
 - `docker-compose.yml`：服务编排，挂载宿主机 rclone 配置 (`~/.config/rclone:/root/.config/rclone:ro`) 及数据目录。
 
