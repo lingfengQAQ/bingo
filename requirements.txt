@@ -1,0 +1,3 @@
+lightrag-hku
+google-generativeai
+pypdf
