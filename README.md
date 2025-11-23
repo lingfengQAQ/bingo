@@ -55,3 +55,13 @@ git remote add origin git@github.com:<your-account>/<repo>.git
 git push -u origin work
 ```
 请将 `<your-account>` 与 `<repo>` 替换为你的实际 GitHub 账户名和仓库名。
+
+## GitHub Actions 构建镜像
+
+仓库已内置 `.github/workflows/build.yml`，在推送到 `main` 或提交 PR 时会自动：
+
+1. 登录 GitHub Container Registry (`ghcr.io`);
+2. 使用 `docker buildx` 构建 `Dockerfile`;
+3. 将镜像推送到 `ghcr.io/<owner>/bingo:latest` 并设置为公开。
+
+部署服务器只需设置环境变量 `BINGO_IMAGE=ghcr.io/<owner>/bingo:latest`，然后执行 `docker compose up -d` 即可直接使用最新镜像。
