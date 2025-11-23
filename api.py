@@ -182,4 +182,22 @@ async def get_stats():
                 "total": len(docs),
                 "processed": sum(1 for d in docs.values() if d.get("status") == "processed"),
                 "processing": sum(1 for d in docs.values() if d.get("status") == "processing"),
-                "pending": sum(1 for d in docs values)???...
+                "pending": sum(1 for d in docs.values() if d.get("status") == "pending"),
+                "failed": sum(1 for d in docs.values() if d.get("status") == "failed"),
+            }
+
+        return stats
+
+    except Exception as e:
+        logger.error(f"获取统计信息失败: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(
+        "api:app",
+        host="0.0.0.0",
+        port=8000,
+        reload=False
+    )
