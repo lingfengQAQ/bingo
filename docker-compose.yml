@@ -3,6 +3,7 @@ services:
   bingo:
     build: .
     container_name: bingo-rag
+    image: ${BINGO_IMAGE:-ghcr.io/lingfengQAQ/bingo:latest}
     env_file:
       - .env
     environment:
@@ -16,6 +17,7 @@ services:
   bingo-api:
     build: .
     container_name: bingo-rag-api
+    image: ${BINGO_IMAGE:-ghcr.io/lingfengQAQ/bingo:latest}
     command: ["python", "api_server.py"]
     env_file:
       - .env.api
