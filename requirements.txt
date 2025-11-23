@@ -1,4 +1,13 @@
 lightrag-hku
 google-generativeai
-pypdf
 numpy
+ebooklib
+beautifulsoup4
+html2text
+fastapi
+uvicorn[standard]
+python-dotenv
+PyJWT
+aiofiles
+google-genai
+tenacity

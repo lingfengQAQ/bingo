@@ -4,3 +4,10 @@ __pycache__/
 .env
 .env.*
 !.env.example
+!.env.api
+.venv/
+test_input/
+test_db/
+test_db.backup_old/
+bingo_upload.tar.gz
+LightRAG/

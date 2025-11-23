@@ -1,13 +1,32 @@
 services:
-  rag-worker:
+  # 数据处理服务（处理 EPUB 文件，构建知识图谱）
+  bingo:
     build: .
+    container_name: bingo-rag
+    env_file:
+      - .env
     environment:
-      GOOGLE_API_KEY: ${GOOGLE_API_KEY}
-      GDRIVE_SRC: ${GDRIVE_SRC:-gdrive:ebooks}
-      LOCAL_SRC: ${LOCAL_SRC:-/data/input}
-      LOCAL_DB: ${LOCAL_DB:-/data/lightrag_db}
-      GDRIVE_DST: ${GDRIVE_DST:-gdrive:ebooks-db}
+      LOCAL_SRC: /data/input
+      LOCAL_DB: /data/lightrag_db
     volumes:
-      - ~/.config/rclone:/root/.config/rclone:ro
       - ./data:/data
     restart: unless-stopped
+
+  # API 查询服务（对外提供查询接口）
+  bingo-api:
+    build: .
+    container_name: bingo-rag-api
+    command: ["python", "api_server.py"]
+    env_file:
+      - .env.api
+    environment:
+      WORKING_DIR: /data/lightrag_db
+      INPUT_DIR: /data/input
+      LOG_DIR: /data/logs
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/data
+    restart: unless-stopped
+    depends_on:
+      - bingo
